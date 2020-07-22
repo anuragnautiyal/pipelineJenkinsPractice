@@ -1,4 +1,4 @@
-def scriptVar = load "testScript.groovy"
+def scriptVar
 pipeline {
     agent any
     environment {
@@ -11,6 +11,14 @@ pipeline {
 
 
     stages {
+        stage('initiate'){
+            steps{
+                script{
+                            scriptVar = load "testScript.groovy"
+                 }
+            }
+        }
+
         stage('build') {
             steps {
             script{
