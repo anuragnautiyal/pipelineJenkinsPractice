@@ -1,0 +1,56 @@
+def script = testScript.groovy
+pipeline {
+    agent any
+    environment {
+        VALUE = '1.2'
+        CREDENTIALS = credentials('secondsample2')
+    }
+    parameters {
+        booleanParam(name: 'executeStep', defaultValue:true, description: 'lets try parameter')
+    }
+
+
+    stages {
+        stage('build') {
+            steps {
+                script.build()
+            }
+
+        }
+
+
+        stage('deploy') {
+            when {
+                expression {
+                    VALUE == '1.2'
+                }
+
+            }
+            steps {
+                echo "deploy in PROGRESS"
+                echo " the VALUE IS ${VALUE}"
+                echo "using server credentials ${CREDENTIALS}"
+                echo "deploy in DONE"
+            }
+
+        }
+
+        stage('PostDeploy') {
+            when {
+                expression {
+                    params.executeStep
+                    
+                }
+            }
+            steps {
+                echo "post deploy id ${BUILD_ID} in PROGRESS"
+               // echo "BRANCH_NAME ${BRANCH_NAME} was deployed"
+                echo "post deploy is DONE"
+                echo " the value of execute step is ${params.executeStep}"
+            }
+
+        }
+
+
+    }
+}
