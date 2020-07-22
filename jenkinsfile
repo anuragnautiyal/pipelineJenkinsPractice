@@ -38,10 +38,9 @@ pipeline {
 
             }
             steps {
-                echo "deploy in PROGRESS"
-                echo " the VALUE IS ${VALUE}"
-                echo "using server credentials ${CREDENTIALS}"
-                echo "deploy in DONE"
+                script{
+                scriptVar.deploy()
+                }
             }
 
         }
